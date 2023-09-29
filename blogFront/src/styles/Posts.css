@@ -17,7 +17,7 @@
     border-radius: 10px;
     margin-top: 40px;
     margin-right: 40px;
-    min-height: fit-content;
+    word-wrap: break-word;
 }
 
 .container{
