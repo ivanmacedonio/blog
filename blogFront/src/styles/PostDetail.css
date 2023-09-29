@@ -1,0 +1,55 @@
+.renderpost {
+    display: flex;
+    justify-content: center;
+}
+
+.compo {
+    width: 100%;
+    word-wrap: break-word;
+    margin-bottom: 50px;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.navigation {
+    font-size: 25px;
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+.formRetrieve {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.t1,
+.t2,
+.update {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.form{
+    width: 100%;
+}
+
+.input1, .input2{
+    width: 55%;
+}
+
+.updatebtn{
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.delete{
+    display: flex;
+    justify-content: center;
+}
+
+.update{
+    margin-top: 20px;
+}

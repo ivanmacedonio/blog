@@ -7,7 +7,7 @@ export const RenderPosts = ({post}) => {
     <div className="compo" >
       <div className="post" key={post.id}>
         <h1>{post.title}</h1>
-        <h2>{post.description}</h2>
+        <p>{post.description}</p>
         <div>{post.author}</div>
       </div>
     </div>

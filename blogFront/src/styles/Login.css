@@ -1,0 +1,15 @@
+.formlogin, .titlelogin, .buttonlogin{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 90px;
+    margin-top: 50px;
+}
+
+.usernameinput, .password{
+    margin-bottom: 20px;
+}
+
+.foot{
+    display: flex;
+    justify-content: center;
+}

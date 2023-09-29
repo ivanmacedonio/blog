@@ -6,62 +6,118 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import "../styles/PostDetail.css";
 
 export const PostDetail = () => {
   const [post, setPosts] = useState([]);
+  const [isAuth, setIsAuth]  = useState(false);
   const params = useParams();
-  const nav = useNavigate()
+  const nav = useNavigate();
   const { register, handleSubmit } = useForm();
   useEffect(() => {
     const loadData = async () => {
-      const res = await axios.get(
-        `http://127.0.0.1:8000/api/postdetail/${params.id}/`
-      );
-      setPosts(res.data);
+      const token = localStorage.getItem("access");
+      if (token) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        const res = await axios.get(
+          `http://127.0.0.1:8000/api/postdetail/${params.id}/`,
+          {
+            headers,
+          }
+        );
+        setPosts(res.data);
+        setIsAuth(true);
+      } else {
+        setIsAuth(false);
+      }
     };
     loadData();
-  }, [post]);
+  }, []);
 
   async function onSubmit(data) {
+    const token = localStorage.getItem("access");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
     const update = await axios.put(
       `http://127.0.0.1:8000/api/postdetail/${params.id}/`,
-      data
+      data,
+      {
+        headers,
+      }
     );
     setPosts(update);
+    nav("/");
   }
 
   async function handleDelete() {
-    await axios.delete(`http://127.0.0.1:8000/api/postdetail/${params.id}/`)
-    nav('/')
+    const token = localStorage.getItem('access')
+    const headers = {
+      Authorization: `Bearer${token}`
+    }
+    await axios.delete(`http://127.0.0.1:8000/api/postdetail/${params.id}/`, 
+    {headers});
+    nav("/");
   }
 
   return (
     <div className="app">
-      <div>
-        <RenderPosts post={post}></RenderPosts>
-      </div>
+      {isAuth ? (
+        <div>
+          <div className="buton">
+            <Button
+              onClick={() => {
+                nav("/");
+              }}
+            >
+              <div className="navigation">⬅ Posts</div>
+            </Button>
+          </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          id="outlined-basic"
-          label="Title"
-          variant="outlined"
-          {...register("title")}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Description"
-          variant="outlined"
-          {...register("description")}
-        />
-        <Button variant="outlined" type="submit">
-          Update
-        </Button>
-        <Button variant="outlined" color="error"
-        onClick={handleDelete}>
-          Delete
-        </Button>
-      </form>
+          <div className="renderpost">
+            <RenderPosts post={post}></RenderPosts>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="formRetrieve">
+            <div className="form">
+              <div className="t1">
+                <TextField
+                  className="input1"
+                  id="outlined-basic"
+                  label="Title"
+                  variant="outlined"
+                  {...register("title")}
+                />
+              </div>
+              <div className="t2">
+                <TextField
+                  className="input2"
+                  id="outlined-basic"
+                  label="Description"
+                  variant="outlined"
+                  {...register("description")}
+                />
+              </div>
+              <div className="update">
+                <Button variant="outlined" type="submit" className="updatebtn">
+                  Update
+                </Button>
+              </div>
+              <div className="delete">
+                <Button variant="outlined" color="error" onClick={handleDelete}>
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
+      ) : (
+        <h1>
+          Failed to authenticate, please <a href="/login">login</a>
+        </h1>
+      )}
     </div>
   );
 };

@@ -18,9 +18,10 @@
     margin-top: 40px;
     margin-right: 40px;
     word-wrap: break-word;
+    padding: 20px 20px 20px 20px;
 }
 
-.container{
+.container {
     display: flex;
     justify-content: center;
 }
