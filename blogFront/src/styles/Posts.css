@@ -1,0 +1,26 @@
+.navigate {
+
+    font-size: 25px;
+    margin-top: 40px;
+    margin-left: 40px;
+
+}
+
+.postlist {
+    display: block;
+    max-width: 800px;
+}
+
+.post {
+    cursor: pointer;
+    background-color: rgb(228, 226, 226);
+    border-radius: 10px;
+    margin-top: 40px;
+    margin-right: 40px;
+    min-height: fit-content;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+}
