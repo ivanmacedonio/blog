@@ -9,6 +9,7 @@
 .postlist {
     display: block;
     max-width: 800px;
+    min-width: 50%;
 }
 
 .post {
@@ -32,4 +33,29 @@
     border-style: solid;
     border-color: rgba(2, 2, 2, 0.581);
     padding: 20px 20px 20px 20px;
+}
+
+
+.searchbar{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+
+}
+
+.bar{
+    width: 40%;
+}
+
+.buttonSearch{
+    border-style: initial;
+    border-radius: 10px;
+    margin-left: 20px;
+    cursor: pointer;
+    background-color: rgb(239, 237, 237);
+    transition: background-color 0.3s ease;
+}
+
+.buttonSearch:hover{
+    background-color: white;
 }

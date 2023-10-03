@@ -21,7 +21,6 @@ export const RenderComments = ({ postid }) => {
             headers,
           }
         );
-        console.log(res.data);
         setComments(res.data);
       } else {
         console.log("error");

@@ -8,10 +8,11 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True, to_field="username"
     )
-    likes = models.IntegerField(null=True)
+    likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
 
     def __str__(self):
         return f"{self.title} => {self.author}"
+    
 
 
 class Comment(models.Model):

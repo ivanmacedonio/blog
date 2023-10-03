@@ -12,6 +12,8 @@ export const PostDetail = () => {
   const [post, setPosts] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
+  const [title, setTitle] = useState();
+  const [descrip, setDescrip] = useState();
   const params = useParams();
   const nav = useNavigate();
   const { register, handleSubmit } = useForm();
@@ -29,6 +31,8 @@ export const PostDetail = () => {
           }
         );
         setPosts(res.data);
+        setTitle(res.data.title)
+        setDescrip(res.data.description)
         setIsAuth(true);
         const username = localStorage.getItem("username");
         if (username === res.data.author) {
@@ -42,6 +46,7 @@ export const PostDetail = () => {
     };
     loadData();
   }, []);
+  
 
   async function onSubmit(data) {
     const token = localStorage.getItem("access");
@@ -68,6 +73,16 @@ export const PostDetail = () => {
       headers,
     });
     nav("/");
+  }
+
+  function handleOnChange(e){
+    const updatedTitle = e.target.value
+    setTitle(updatedTitle)
+  }
+  
+  function handleOnChangeDescription(e){
+    const updatedTitle = e.target.value
+    setDescrip(updatedTitle)
   }
 
   return (
@@ -98,7 +113,8 @@ export const PostDetail = () => {
                     label="Title"
                     variant="outlined"
                     {...register("title")}
-                    value={post.title}
+                    value={title}
+                    onChange={handleOnChange}
                   />
                 </div>
                 <div className="t2">
@@ -108,8 +124,8 @@ export const PostDetail = () => {
                     label="Description"
                     variant="outlined"
                     {...register("description")}
-                    value={post.description}
-  
+                    value={descrip}
+                    onChange={handleOnChangeDescription}
                   />
                 </div>
               </div>

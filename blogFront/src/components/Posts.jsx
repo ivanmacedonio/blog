@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { RenderPosts } from "./RenderPosts";
 import { Button } from "@mui/material";
-import { RenderComments } from "./RenderComments";
+import { TextField } from "@mui/material";
 
 import "../styles/Posts.css";
 
@@ -40,6 +40,10 @@ export const Posts = ({ likes }) => {
     loadPosts();
   }, []);
 
+  function handleOnSubmit() {
+    
+  }
+
   return (
     <div>
       {isAuth ? (
@@ -66,13 +70,20 @@ export const Posts = ({ likes }) => {
           >
             <div className="navigate">⬅ Logout</div>
           </Button>
+          <form className="searchbar" onSubmit={handleOnSubmit}>
+            <TextField
+              className="bar"
+              id="standard-basic"
+              label="Search a post..."
+              variant="standard"
+            />
+            <button className="buttonSearch" type="submit">Search</button>
+          </form>
+
           <div className="container">
             <div className="postlist">
               {posts.map((post) => (
-                <div
-                  key={post.id}
-                  className="post"
-                >
+                <div key={post.id} className="post">
                   <RenderPosts key={post.id} post={post}></RenderPosts>
                 </div>
               ))}

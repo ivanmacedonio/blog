@@ -24,6 +24,7 @@ class PostListSerializer(serializers.ModelSerializer):
         return post
 
 
+
 class CreateCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment

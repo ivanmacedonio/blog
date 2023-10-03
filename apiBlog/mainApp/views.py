@@ -76,12 +76,16 @@ class PostComment(generics.ListCreateAPIView):
 
 
 class postLike(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         try:
-            pk = request.data["post_id"]
+            pk = request.query_params.get("post_id")
             post = Post.objects.get(id=pk)
-            post.likes.add()
+            user = request.user
+            if user in post.likes.all():
+                return Response({"Message": "Ya diste like a este post!"})
             post.save()
+            post.likes.add(user)
             return Response({"Message": "Liked!"})
         except Exception as e:
             return Response({"error": "Post not found"})
