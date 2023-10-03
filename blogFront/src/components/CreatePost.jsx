@@ -24,13 +24,13 @@ export const CreatePost = () => {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('access')
-    if(token){
-      setIsAuth(true)
+    const token = localStorage.getItem("access");
+    if (token) {
+      setIsAuth(true);
     } else {
-      setIsAuth(false)
+      setIsAuth(false);
     }
-  }, [])
+  }, []);
 
   return (
     <div>

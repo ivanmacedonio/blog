@@ -19,7 +19,9 @@ export const Login = () => {
         data
       );
       const access = res.data;
+      const username = data.username
       localStorage.setItem("access", access.token);
+      localStorage.setItem('username', username )
       nav("/");
     } catch (error) {
       setError(true);

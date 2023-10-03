@@ -1,3 +1,21 @@
-.post{
+.post {
     height: auto;
+}
+
+.comments {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+
+
+}
+
+.commentBox {
+    min-width: 70%;
+}
+
+.likes {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 8rem;
 }

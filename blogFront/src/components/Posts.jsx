@@ -3,13 +3,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { RenderPosts } from "./RenderPosts";
 import { Button } from "@mui/material";
+import { RenderComments } from "./RenderComments";
 
 import "../styles/Posts.css";
 
 export const Posts = ({ likes }) => {
   const [posts, setPosts] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
-
+  const [userId, setUserId] = useState("");
+  const username = localStorage.getItem("username");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,8 +24,15 @@ export const Posts = ({ likes }) => {
         const res = await axios.get("http://127.0.0.1:8000/api/postlist/", {
           headers,
         });
+        const resUserId = await axios.get(
+          "http://127.0.0.1:8000/api/getUser/",
+          {
+            headers,
+          }
+        );
         setPosts(res.data);
         setIsAuth(true);
+        setUserId(resUserId.data.user_id);
       } else {
         setIsAuth(false);
       }
@@ -44,6 +53,13 @@ export const Posts = ({ likes }) => {
           </Button>
           <Button
             onClick={() => {
+              navigate(`/profile/${userId}`);
+            }}
+          >
+            <div className="navigate">{username}</div>
+          </Button>
+          <Button
+            onClick={() => {
               localStorage.removeItem("access");
               navigate("/login");
             }}
@@ -54,10 +70,8 @@ export const Posts = ({ likes }) => {
             <div className="postlist">
               {posts.map((post) => (
                 <div
+                  key={post.id}
                   className="post"
-                  onClick={() => {
-                    navigate(`/postdetail/${post.id}`);
-                  }}
                 >
                   <RenderPosts key={post.id} post={post}></RenderPosts>
                 </div>
@@ -66,7 +80,9 @@ export const Posts = ({ likes }) => {
           </div>
         </div>
       ) : (
-        <h1>Failted to authenticate, <a href="/login">Login</a></h1>
+        <h1>
+          Failted to authenticate, <a href="/login">Login</a>
+        </h1>
       )}
     </div>
   );

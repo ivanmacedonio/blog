@@ -10,7 +10,8 @@ import "../styles/PostDetail.css";
 
 export const PostDetail = () => {
   const [post, setPosts] = useState([]);
-  const [isAuth, setIsAuth]  = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+  const [isAuthor, setIsAuthor] = useState(false);
   const params = useParams();
   const nav = useNavigate();
   const { register, handleSubmit } = useForm();
@@ -29,6 +30,12 @@ export const PostDetail = () => {
         );
         setPosts(res.data);
         setIsAuth(true);
+        const username = localStorage.getItem("username");
+        if (username === res.data.author) {
+          setIsAuthor(true);
+        } else {
+          setIsAuthor(false);
+        }
       } else {
         setIsAuth(false);
       }
@@ -41,7 +48,7 @@ export const PostDetail = () => {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
-    const update = await axios.put(
+    const update = await axios.patch(
       `http://127.0.0.1:8000/api/postdetail/${params.id}/`,
       data,
       {
@@ -53,12 +60,13 @@ export const PostDetail = () => {
   }
 
   async function handleDelete() {
-    const token = localStorage.getItem('access')
+    const token = localStorage.getItem("access");
     const headers = {
-      Authorization: `Bearer${token}`
-    }
-    await axios.delete(`http://127.0.0.1:8000/api/postdetail/${params.id}/`, 
-    {headers});
+      Authorization: `Bearer ${token}`,
+    };
+    await axios.delete(`http://127.0.0.1:8000/api/postdetail/${params.id}/`, {
+      headers,
+    });
     nav("/");
   }
 
@@ -80,26 +88,32 @@ export const PostDetail = () => {
             <RenderPosts post={post}></RenderPosts>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="formRetrieve">
-            <div className="form">
-              <div className="t1">
-                <TextField
-                  className="input1"
-                  id="outlined-basic"
-                  label="Title"
-                  variant="outlined"
-                  {...register("title")}
-                />
+          {isAuthor ? (
+            <form onSubmit={handleSubmit(onSubmit)} className="formRetrieve">
+              <div className="form">
+                <div className="t1">
+                  <TextField
+                    className="input1"
+                    id="outlined-basic"
+                    label="Title"
+                    variant="outlined"
+                    {...register("title")}
+                    value={post.title}
+                  />
+                </div>
+                <div className="t2">
+                  <TextField
+                    className="input2"
+                    id="outlined-basic"
+                    label="Description"
+                    variant="outlined"
+                    {...register("description")}
+                    value={post.description}
+  
+                  />
+                </div>
               </div>
-              <div className="t2">
-                <TextField
-                  className="input2"
-                  id="outlined-basic"
-                  label="Description"
-                  variant="outlined"
-                  {...register("description")}
-                />
-              </div>
+
               <div className="update">
                 <Button variant="outlined" type="submit" className="updatebtn">
                   Update
@@ -110,8 +124,10 @@ export const PostDetail = () => {
                   Delete
                 </Button>
               </div>
-            </div>
-          </form>
+            </form>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         <h1>
