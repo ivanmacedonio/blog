@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "../styles/RenderPosts.css";
 import { RenderComments } from "./RenderComments";
 import axios from "axios";
-export const RenderPosts = ({ post }) => {
+export const RenderPosts = ({ post, image }) => {
   const navigate = useNavigate();
+
   return (
     <>
       <div className="compo">
@@ -16,7 +17,7 @@ export const RenderPosts = ({ post }) => {
           }}
         >
           <div className="image">
-            <img src={post.image} alt={post.image} className="img" />
+            <img src={image} alt='' className="img" />
           </div>
 
           <h1>{post.title}</h1>

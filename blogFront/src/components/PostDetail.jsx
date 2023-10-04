@@ -31,8 +31,8 @@ export const PostDetail = () => {
           }
         );
         setPosts(res.data);
-        setTitle(res.data.title)
-        setDescrip(res.data.description)
+        setTitle(res.data.title);
+        setDescrip(res.data.description);
         setIsAuth(true);
         const username = localStorage.getItem("username");
         if (username === res.data.author) {
@@ -46,7 +46,6 @@ export const PostDetail = () => {
     };
     loadData();
   }, []);
-  
 
   async function onSubmit(data) {
     const token = localStorage.getItem("access");
@@ -75,14 +74,14 @@ export const PostDetail = () => {
     nav("/");
   }
 
-  function handleOnChange(e){
-    const updatedTitle = e.target.value
-    setTitle(updatedTitle)
+  function handleOnChange(e) {
+    const updatedTitle = e.target.value;
+    setTitle(updatedTitle);
   }
-  
-  function handleOnChangeDescription(e){
-    const updatedTitle = e.target.value
-    setDescrip(updatedTitle)
+
+  function handleOnChangeDescription(e) {
+    const updatedTitle = e.target.value;
+    setDescrip(updatedTitle);
   }
 
   return (
@@ -98,49 +97,68 @@ export const PostDetail = () => {
               <div className="navigation">⬅ Posts</div>
             </Button>
           </div>
-
-          <div className="renderpost">
-            <RenderPosts post={post}></RenderPosts>
+          <div className="test">
+            <div className="postdetailrender">
+              <div className="renderpost">
+                <RenderPosts post={post} image={post.image}></RenderPosts>
+              </div>
+            </div>
           </div>
 
           {isAuthor ? (
-            <form onSubmit={handleSubmit(onSubmit)} className="formRetrieve">
-              <div className="form">
-                <div className="t1">
-                  <TextField
-                    className="input1"
-                    id="outlined-basic"
-                    label="Title"
-                    variant="outlined"
-                    {...register("title")}
-                    value={title}
-                    onChange={handleOnChange}
-                  />
-                </div>
-                <div className="t2">
-                  <TextField
-                    className="input2"
-                    id="outlined-basic"
-                    label="Description"
-                    variant="outlined"
-                    {...register("description")}
-                    value={descrip}
-                    onChange={handleOnChangeDescription}
-                  />
-                </div>
+            <div className="app">
+              <div className="formcont">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="formRetrieve"
+                >
+                  <div className="form">
+                    <div className="t1">
+                      <TextField
+                        className="input1"
+                        id="outlined-basic"
+                        label="Title"
+                        variant="outlined"
+                        {...register("title")}
+                        value={title}
+                        onChange={handleOnChange}
+                      />
+                    </div>
+                    <div className="t2">
+                      <TextField
+                        className="input2"
+                        id="outlined-basic"
+                        label="Description"
+                        variant="outlined"
+                        {...register("description")}
+                        value={descrip}
+                        onChange={handleOnChangeDescription}
+                      />
+                    </div>
+                  </div>
+                  <div className="buttons">
+                    <div className="update">
+                      <Button
+                        variant="outlined"
+                        type="submit"
+                        className="updatebtn"
+                      >
+                        Update
+                      </Button>
+                    </div>
+                    <div className="delete">
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={handleDelete}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </form>
               </div>
-
-              <div className="update">
-                <Button variant="outlined" type="submit" className="updatebtn">
-                  Update
-                </Button>
-              </div>
-              <div className="delete">
-                <Button variant="outlined" color="error" onClick={handleDelete}>
-                  Delete
-                </Button>
-              </div>
-            </form>
+            </div>
           ) : (
             ""
           )}

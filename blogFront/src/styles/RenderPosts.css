@@ -1,7 +1,7 @@
 .post {
     height: auto;
-
 }
+
 
 .comments {
     display: flex;
@@ -11,9 +11,16 @@
 
 }
 
+.formRetrieve{
+    margin-bottom: 200px;
+    max-width: 60%;
+}
+
 .commentBox {
     min-width: 70%;
 }
+
+
 
 .likes {
     display: flex;

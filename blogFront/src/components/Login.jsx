@@ -64,7 +64,7 @@ export const Login = () => {
       <div className="errorcontainer">
       {error ? (
           <Alert severity="error">
-            <p>Failed to authenticate credentials!</p>
+            <h2>Failed to authenticate credentials!</h2>
           </Alert>
         ) : (
           ""

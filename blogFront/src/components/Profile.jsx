@@ -4,12 +4,13 @@ import axios from "axios";
 import { RenderPosts } from "./RenderPosts";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import '../styles/Profile.css'
+import "../styles/Profile.css";
 export const Profile = () => {
   const params = useParams();
   const [username, setUsername] = useState("");
   const [posts, setPosts] = useState([]);
-  const navigate = useNavigate()
+  const [empty, setEmpty] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadData() {
@@ -36,6 +37,15 @@ export const Profile = () => {
     }
     loadData();
   }, []);
+
+  useEffect(() => {
+    if (posts.length === 0) {
+      setEmpty(true);
+    } else {
+      setEmpty(false)
+    }
+  }, [posts])
+
   return (
     <div>
       <Button
@@ -55,8 +65,8 @@ export const Profile = () => {
       </Button>
       <Button
         onClick={() => {
-          localStorage.removeItem('access')
-          navigate('/login')
+          localStorage.removeItem("access");
+          navigate("/login");
         }}
       >
         <div className="navigate">Logout</div>
@@ -64,13 +74,19 @@ export const Profile = () => {
       <div className="username">
         <h2>{username}</h2>
       </div>
-      <div className="posts">
-        {posts.map((post) => (
-          <div className="post" key={post.id}>
-            <RenderPosts post={post}></RenderPosts>
-          </div>
-        ))}
-      </div>
+      {empty ? (
+        <div className="vacio">
+          <h1>Aun no hay contenido del usuario</h1>
+        </div>
+      ) : (
+        <div className="posts">
+          {posts.map((post) => (
+            <div className="post" key={post.id}>
+              <RenderPosts post={post}></RenderPosts>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

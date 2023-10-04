@@ -23,15 +23,20 @@ class PostList(generics.ListCreateAPIView):
     serializer_class = PostListSerializer
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, format = None):
-        uploaded_file = request.FILES.get('image')
-        post = Post.objects.create(image = uploaded_file)
+    def post(self, request, format=None):
+        uploaded_file = request.FILES.get("image")
+        post = Post.objects.create(
+            image=uploaded_file,
+            title=request.data.get("title"),
+            description=request.data.get("description"),
+            author=request.user,
+        )
         post.save()
         serialized_data = self.serializer_class(post)
-        return Response ({'post' : serialized_data.data})
+        return Response({"post": serialized_data.data})
 
 
-class PostListFiltered(generics.ListAPIView):
+class PostListFiltered(generics.ListAPIView): #filter where request.user is the author
     serializer_class = PostListSerializer
     permission_classes = [IsAuthenticated]
 
@@ -84,17 +89,17 @@ class PostComment(generics.ListCreateAPIView):
         return Response(serialized_comment.data)
 
 
-class getPost(generics.ListAPIView):
+class getPost(generics.ListAPIView): #filter with keyword
     serializer_class = PostListSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request):
+
+    def post(self, request): 
         text_filter = request.data.get("filter_text")
         try:
             posts = Post.objects.filter(
                 Q(title__iexact=text_filter) | Q(title__icontains=text_filter)
             )
-            print(text_filter)
             serialized_data = self.serializer_class(posts, many=True)
             return Response({"posts": serialized_data.data})
         except Exception as e:

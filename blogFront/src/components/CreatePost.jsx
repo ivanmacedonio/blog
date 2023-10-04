@@ -10,7 +10,7 @@ export const CreatePost = () => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
   const { register, handleSubmit } = useForm();
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState(null);
 
   async function onSubmit(data) {
     const token = localStorage.getItem("access");
@@ -18,11 +18,16 @@ export const CreatePost = () => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     };
-    const updated = {...data, image}
-    await axios.post("http://127.0.0.1:8000/api/postlist/", updated, {
+    const formData = new FormData();
+    formData.append("image", image); // 'image' es el nombre del campo donde deseas enviar la imagen
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    console.log(formData)
+    await axios.post("http://127.0.0.1:8000/api/postlist/", formData, {
       headers,
     });
     navigate("/");
+    
   }
 
   useEffect(() => {

@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
 
 export const Register = () => {
   const { register, handleSubmit } = useForm();
-  const nav = useNavigate()
+  const [error, setter] = useState(false);
+  const [message, setMessage] = useState("alerta");
+  const nav = useNavigate();
 
   async function onSubmit(data) {
-    if(data.password !== data.password2){
-        console.log('error')
+    if (data.password !== data.password2) {
+      console.log("error");
+      setter(true);
+      setMessage("Passwords dont match");
     } else {
-        const res = await axios.post('http://127.0.0.1:8000/api/userRegister/', data)
+      try {
+        const res = await axios.post(
+          "http://127.0.0.1:8000/api/userRegister/",
+          data
+        );
         nav('/login')
+      } catch {
+          setter(true);
+          setMessage("Username already exists");
+      }
     }
   }
   return (
@@ -59,9 +72,18 @@ export const Register = () => {
           </div>
         </div>
       </form>
+      <div className="errorcontainer">
+        {error ? (
+          <Alert severity="error" className="erroralert">
+            <h2>{message}</h2>
+          </Alert>
+        ) : (
+          ""
+        )}
+      </div>
       <div className="foot">
         <h2>
-          Have an account? <a href="/register">Login</a> now!
+          Have an account? <a href="/login">Login</a> now!
         </h2>
       </div>
     </div>

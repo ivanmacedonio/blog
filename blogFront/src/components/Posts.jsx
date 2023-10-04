@@ -56,14 +56,17 @@ export const Posts = () => {
       });
       setFilteredPosts(res.data.posts);
       setFilter(true);
+      
     }
   }
+
 
   return (
     <div>
       {isAuth ? (
         <div>
           <Button
+            className="buttons"
             onClick={() => {
               navigate("/create");
             }}
@@ -93,6 +96,7 @@ export const Posts = () => {
               variant="standard"
               {...register("title")}
             />
+
             <button className="buttonSearch" type="submit">
               Search
             </button>
@@ -104,6 +108,7 @@ export const Posts = () => {
                 {filteredPosts.map((filtered) => (
                   <div key={filtered.id} className="post">
                     <RenderPosts
+                      image={`http://127.0.0.1:8000${filtered.image}`}
                       key={filtered.id}
                       post={filtered}
                     ></RenderPosts>
@@ -116,7 +121,7 @@ export const Posts = () => {
               <div className="postlist">
                 {posts.map((post) => (
                   <div key={post.id} className="post">
-                    <RenderPosts key={post.id} post={post}></RenderPosts>
+                    <RenderPosts key={post.id} post={post} image={post.image}></RenderPosts>
                   </div>
                 ))}
               </div>

@@ -1,7 +1,4 @@
-.renderpost {
-    display: flex;
-    justify-content: center;
-}
+
 
 .compo {
     width: 100%;
@@ -53,3 +50,25 @@
 .update{
     margin-top: 20px;
 }
+
+.buttons{
+    margin-top: 70px;
+    padding-right: 70px;
+}
+
+.formcont{
+    display: flex;
+    justify-content: center;
+}
+
+.postdetailrender{
+    max-width: 70%;
+
+    
+}
+
+.test{
+    display: flex;
+    justify-content: center;
+}
+

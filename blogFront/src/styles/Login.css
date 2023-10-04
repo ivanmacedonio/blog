@@ -13,3 +13,14 @@
     display: flex;
     justify-content: center;
 }
+
+.errorcontainer{
+    display: flex;
+    justify-content: center;
+}
+
+.erroralert{
+    min-width: 60%;
+    display: flex;
+    justify-content: center;
+}
