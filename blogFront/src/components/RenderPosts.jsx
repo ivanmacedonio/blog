@@ -15,6 +15,10 @@ export const RenderPosts = ({ post }) => {
             navigate(`/postdetail/${post.id}`);
           }}
         >
+          <div className="image">
+            <img src={post.image} alt={post.image} className="img" />
+          </div>
+
           <h1>{post.title}</h1>
           <p>{post.description}</p>
           <h4>Usuario: {post.author}</h4>

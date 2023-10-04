@@ -12,7 +12,7 @@ urlpatterns = [
     path("postListFiltered/", PostListFiltered.as_view(), name="PostListFiltered"),
     path("getUser/", getUser.as_view(), name="getUser"),
     path("userList/<int:pk>", UserList.as_view(), name="userList"),
-    path("postLike/", postLike.as_view(), name="postLike"),
+    path("getPost/", getPost.as_view(), name="getPost"),
     path("token/", jwt_views.TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", jwt_views.TokenRefreshView.as_view(), name="token_refresh"),
 ]

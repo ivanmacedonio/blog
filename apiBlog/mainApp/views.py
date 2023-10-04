@@ -14,12 +14,21 @@ from rest_framework_simplejwt.views import (
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth import authenticate
+from django.db.models import Q
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
     permission_classes = [IsAuthenticated]
+
+    def post(self, request, format = None):
+        uploaded_file = request.FILES.get('image')
+        post = Post.objects.create(image = uploaded_file)
+        post.save()
+        serialized_data = self.serializer_class(post)
+        return Response ({'post' : serialized_data.data})
 
 
 class PostListFiltered(generics.ListAPIView):
@@ -75,20 +84,21 @@ class PostComment(generics.ListCreateAPIView):
         return Response(serialized_comment.data)
 
 
-class postLike(APIView):
+class getPost(generics.ListAPIView):
+    serializer_class = PostListSerializer
     permission_classes = [AllowAny]
+
     def post(self, request):
+        text_filter = request.data.get("filter_text")
         try:
-            pk = request.query_params.get("post_id")
-            post = Post.objects.get(id=pk)
-            user = request.user
-            if user in post.likes.all():
-                return Response({"Message": "Ya diste like a este post!"})
-            post.save()
-            post.likes.add(user)
-            return Response({"Message": "Liked!"})
+            posts = Post.objects.filter(
+                Q(title__iexact=text_filter) | Q(title__icontains=text_filter)
+            )
+            print(text_filter)
+            serialized_data = self.serializer_class(posts, many=True)
+            return Response({"posts": serialized_data.data})
         except Exception as e:
-            return Response({"error": "Post not found"})
+            return Response({"error": str(e)})
 
 
 class getUser(APIView):

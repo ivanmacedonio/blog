@@ -9,15 +9,17 @@ import "../styles/CreatePost.css";
 export const CreatePost = () => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
-
   const { register, handleSubmit } = useForm();
+  const [image, setImage] = useState(null)
 
   async function onSubmit(data) {
     const token = localStorage.getItem("access");
     const headers = {
       Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
     };
-    await axios.post("http://127.0.0.1:8000/api/postlist/", data, {
+    const updated = {...data, image}
+    await axios.post("http://127.0.0.1:8000/api/postlist/", updated, {
       headers,
     });
     navigate("/");
@@ -31,6 +33,11 @@ export const CreatePost = () => {
       setIsAuth(false);
     }
   }, []);
+
+  function handleImage(e) {
+    const file = e.target.files[0];
+    setImage(file);
+  }
 
   return (
     <div>
@@ -65,6 +72,10 @@ export const CreatePost = () => {
                 {...register("description")}
               />
             </div>
+            <div className="button">
+              <input type="file" onChange={handleImage} />
+            </div>
+
             <div className="button">
               <Button variant="outlined" type="submit">
                 Create

@@ -4,15 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { RenderPosts } from "./RenderPosts";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
-
+import { useForm } from "react-hook-form";
 import "../styles/Posts.css";
 
-export const Posts = ({ likes }) => {
+export const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
   const [userId, setUserId] = useState("");
+
+  const [filtertext, setFilterText] = useState("");
+  const [filter, setFilter] = useState(false);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     async function loadPosts() {
@@ -40,8 +46,17 @@ export const Posts = ({ likes }) => {
     loadPosts();
   }, []);
 
-  function handleOnSubmit() {
-    
+  async function onSubmit(data) {
+    if (data.title === "") {
+      setFilter(false);
+    } else {
+      const filter_text = data.title;
+      const res = await axios.post("http://127.0.0.1:8000/api/getPost/", {
+        filter_text,
+      });
+      setFilteredPosts(res.data.posts);
+      setFilter(true);
+    }
   }
 
   return (
@@ -70,25 +85,43 @@ export const Posts = ({ likes }) => {
           >
             <div className="navigate">⬅ Logout</div>
           </Button>
-          <form className="searchbar" onSubmit={handleOnSubmit}>
+          <form className="searchbar" onSubmit={handleSubmit(onSubmit)}>
             <TextField
               className="bar"
               id="standard-basic"
               label="Search a post..."
               variant="standard"
+              {...register("title")}
             />
-            <button className="buttonSearch" type="submit">Search</button>
+            <button className="buttonSearch" type="submit">
+              Search
+            </button>
           </form>
 
-          <div className="container">
-            <div className="postlist">
-              {posts.map((post) => (
-                <div key={post.id} className="post">
-                  <RenderPosts key={post.id} post={post}></RenderPosts>
-                </div>
-              ))}
+          {filter ? (
+            <div className="container">
+              <div className="postlist">
+                {filteredPosts.map((filtered) => (
+                  <div key={filtered.id} className="post">
+                    <RenderPosts
+                      key={filtered.id}
+                      post={filtered}
+                    ></RenderPosts>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="container">
+              <div className="postlist">
+                {posts.map((post) => (
+                  <div key={post.id} className="post">
+                    <RenderPosts key={post.id} post={post}></RenderPosts>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <h1>

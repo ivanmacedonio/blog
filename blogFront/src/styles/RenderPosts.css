@@ -20,3 +20,18 @@
     justify-content: flex-start;
     padding-left: 8rem;
 }
+
+.img {
+
+    border-style: initial;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    max-width: 80%;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+    max-height: 500px;
+    
+}
