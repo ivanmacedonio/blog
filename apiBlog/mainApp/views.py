@@ -31,6 +31,7 @@ class PostList(generics.ListCreateAPIView):
             description=request.data.get("description"),
             author=request.user,
         )
+
         post.save()
         serialized_data = self.serializer_class(post)
         return Response({"post": serialized_data.data})

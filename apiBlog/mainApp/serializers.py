@@ -10,18 +10,19 @@ class PostListSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        if data["title"] == "":
+        if (data["title"] == ""):
             raise serializers.ValidationError("Dont send empty data")
         return data
 
     def create(self, validated_data):
-        post = Post.objects.create(
-            title=validated_data["title"],
-            description=validated_data["description"],
-            author=self.context["request"].user,
-        )
-        post.save()
-        return post
+            post = Post.objects.create(
+                title=validated_data["title"],
+                description=validated_data["description"],
+                author=self.context["request"].user,
+            )
+        
+            post.save()
+            return post
 
 
 
