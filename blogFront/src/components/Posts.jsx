@@ -108,7 +108,7 @@ export const Posts = () => {
                 {filteredPosts.map((filtered) => (
                   <div key={filtered.id} className="post">
                     <RenderPosts
-                      image={`http://127.0.0.1:8000${filtered.image}`}
+                      image={`https://drfblogcrud-api.onrender.com/${filtered.image}`}
                       key={filtered.id}
                       post={filtered}
                     ></RenderPosts>
@@ -130,7 +130,7 @@ export const Posts = () => {
         </div>
       ) : (
         <h1>
-          Failted to authenticate, <a href="/login">Login</a>
+          Failed to authenticate, please <a href="/login">login</a>
         </h1>
       )}
     </div>

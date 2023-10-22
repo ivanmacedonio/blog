@@ -94,7 +94,7 @@ export const CreatePost = () => {
         </div>
       ) : (
         <h1>
-          Failed authenticate, please <a href="/login">Login</a>
+          Failed to authenticate, please <a href="/login">login</a>
         </h1>
       )}
     </div>

@@ -82,9 +82,7 @@ export const Register = () => {
         )}
       </div>
       <div className="foot">
-        <h2>
-          Have an account? <a href="/login">Login</a> now!
-        </h2>
+      Failed to authenticate, please <a href="/login">login</a>
       </div>
     </div>
   );
