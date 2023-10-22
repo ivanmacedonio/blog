@@ -16,7 +16,7 @@ export const RenderComments = ({ postid }) => {
           Authorization: `Bearer ${token}`,
         };
         const res = await axios.get(
-          `http://127.0.0.1:8000/api/postComment/${postid}/`,
+          `https://drfblogcrud-api.onrender.com/api/postComment/${postid}/`,
           {
             headers,
           }
@@ -35,7 +35,7 @@ export const RenderComments = ({ postid }) => {
       Authorization: `Bearer ${token}`,
     };
     const res = await axios.post(
-      `http://127.0.0.1:8000/api/postComment/${postid}/`,
+      `https://drfblogcrud-api.onrender.com/api/postComment/${postid}/`,
       data,
       { headers }
     );
